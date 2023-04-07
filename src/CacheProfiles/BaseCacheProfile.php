@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Jenssegers\Agent\Agent as Agent;
 abstract class BaseCacheProfile implements CacheProfile
 {
     public function enabled(Request $request): bool
@@ -23,9 +23,11 @@ abstract class BaseCacheProfile implements CacheProfile
 
     public function useCacheNameSuffix(Request $request): string
     {
+         $Agent = new Agent();
+        $mobile = $Agent->isMobile();
         return Auth::check()
-            ? (string) Auth::id()
-            : '';
+            ? (string) Auth::id()."_".$mobile
+            : '_'.$mobile;
     }
 
     public function isRunningInConsole(): bool
