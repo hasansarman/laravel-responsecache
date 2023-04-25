@@ -27,8 +27,8 @@ abstract class BaseCacheProfile implements CacheProfile
          $Agent = new Agent();
         $mobile = $Agent->isMobile();
         return Sentinel::check()
-            ? (string) Sentinel::getUser()->id."_".$mobile
-            : '_'.$mobile;
+            ? (string) Sentinel::getUser()->id."_".$mobile."_".session('currency')
+            : '_'.$mobile."_".session('currency');
     }
 
     public function isRunningInConsole(): bool
